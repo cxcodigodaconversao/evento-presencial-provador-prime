@@ -1,0 +1,35 @@
+{
+  "name": "provador-prime-landing",
+  "version": "1.0.0",
+  "description": "Landing page moderna para a formação presencial Provador Prime",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 3000",
+    "dev": "live-server --port=3000",
+    "build": "echo 'No build process needed - static files ready for deploy'",
+    "deploy": "netlify deploy --prod --dir=."
+  },
+  "keywords": [
+    "landing-page",
+    "provador",
+    "moda",
+    "vendas",
+    "glassmorphism",
+    "responsive"
+  ],
+  "author": "Provador Prime",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seu-usuario/provador-prime-landing.git"
+  },
+  "homepage": "https://provador-prime.netlify.app",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
