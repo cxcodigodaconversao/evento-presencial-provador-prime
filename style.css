@@ -1,0 +1,710 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-dark: #0a0612;
+    --secondary-dark: #1a0b2e;
+    --gold: #c8a882;
+    --gold-light: #d4b896;
+    --gold-bright: #e6d4b7;
+    --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(200, 168, 130, 0.2);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: none;
+    font-feature-settings: "liga", "kern";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* CURSOR MÁGICO */
+.magic-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transition: transform 0.1s ease;
+}
+
+.magic-cursor::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 50px;
+    height: 50px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: cursorPulse 2s ease-in-out infinite;
+}
+
+/* MORPHING BACKGROUND */
+.morphing-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(200, 168, 130, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+    z-index: -2;
+    transition: background 0.3s ease;
+}
+
+/* PARTÍCULAS INTERATIVAS */
+.interactive-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: particleFloat 6s ease-in-out infinite;
+    filter: blur(0.5px);
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    position: relative;
+    z-index: 1;
+}
+
+/* HEADER HOLOGRÁFICO */
+.header {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 48%, rgba(200, 168, 130, 0.03) 49%, rgba(200, 168, 130, 0.03) 51%, transparent 52%);
+    background-size: 30px 30px;
+    animation: hologramGrid 20s linear infinite;
+}
+
+.hologram-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(200, 168, 130, 0.1) 50%, transparent 100%);
+    animation: hologramScan 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* LOGO LÍQUIDO */
+.logo-container {
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.presencial-tag {
+    display: inline-block;
+    padding: 15px 50px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    margin-bottom: 60px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.presencial-tag::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(200, 168, 130, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.presencial-tag:hover::before {
+    left: 100%;
+}
+
+.logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    background: linear-gradient(45deg, var(--gold), var(--gold-light), var(--gold-bright), var(--gold));
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: liquidGold 6s ease-in-out infinite;
+    position: relative;
+    cursor: pointer;
+    text-transform: uppercase;
+    line-height: 0.9;
+    margin: 20px 0;
+}
+
+.logo-text::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--gold), transparent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.logo-text:hover::before {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.logo-divider {
+    width: 300px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 40px auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.logo-divider::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -100%;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--gold-bright), transparent);
+    animation: energyFlow 3s ease-in-out infinite;
+}
+
+.logo-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    background: linear-gradient(45deg, var(--gold), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 60px;
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    font-weight: 200;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+}
+
+/* SEÇÕES GLASSMORPHISM */
+.section {
+    padding: 120px 0;
+    position: relative;
+}
+
+.glass-section {
+    background: var(--glass);
+    backdrop-filter: blur(40px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    padding: 80px 60px;
+    margin: 80px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(200, 168, 130, 0.1), transparent);
+    transition: left 1s ease;
+}
+
+.glass-section:hover::before {
+    left: 100%;
+}
+
+/* TÍTULOS MAGNÉTICOS */
+.magnetic-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    letter-spacing: 0.02em;
+}
+
+.magnetic-title::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+    transition: width 0.6s ease;
+}
+
+.magnetic-title:hover::before {
+    width: 100%;
+}
+
+/* TEXTO REVELAÇÃO */
+.reveal-text {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    opacity: 0.8;
+    position: relative;
+    overflow: hidden;
+}
+
+.reveal-text::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(200, 168, 130, 0.2), transparent);
+    transition: left 0.8s ease;
+}
+
+.reveal-text:hover::before {
+    left: 100%;
+}
+
+/* CARDS FLUTUANTES */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+    margin-top: 80px;
+}
+
+.floating-card {
+    background: var(--glass);
+    backdrop-filter: blur(30px);
+    border: 1px solid var(--glass-border);
+    border-radius: 25px;
+    padding: 60px 40px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-style: preserve-3d;
+}
+
+.floating-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(200, 168, 130, 0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.floating-card:hover {
+    transform: translateY(-20px) rotateX(5deg) rotateY(5deg);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+}
+
+.floating-card:hover::before {
+    opacity: 1;
+}
+
+.card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    margin-bottom: 30px;
+    background: linear-gradient(45deg, var(--gold), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* LISTA PREMIUM */
+.premium-list {
+    list-style: none;
+    margin-top: 30px;
+}
+
+.premium-list li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.premium-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(45deg, var(--gold), var(--gold-bright));
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(200, 168, 130, 0.5);
+    animation: orbPulse 3s ease-in-out infinite;
+}
+
+.premium-list li::after {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 2px;
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s ease;
+}
+
+.premium-list li:hover {
+    transform: translateX(10px);
+    opacity: 1;
+}
+
+.premium-list li:hover::after {
+    opacity: 0.5;
+    transform: scale(1);
+}
+
+/* QUOTE HOLOGRÁFICA */
+.holographic-quote {
+    text-align: center;
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.4;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    background: linear-gradient(45deg, var(--white), var(--gold-light), var(--white));
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: quoteScan 8s ease-in-out infinite;
+    cursor: pointer;
+}
+
+.quote-text::before {
+    content: '"';
+    position: absolute;
+    top: -60px;
+    left: -40px;
+    font-size: 12rem;
+    opacity: 0.1;
+    background: linear-gradient(45deg, var(--gold), var(--gold-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: quoteFloat 6s ease-in-out infinite;
+}
+
+.quote-text::after {
+    content: '"';
+    position: absolute;
+    bottom: -80px;
+    right: -40px;
+    font-size: 12rem;
+    opacity: 0.1;
+    background: linear-gradient(45deg, var(--gold), var(--gold-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: quoteFloat 6s ease-in-out infinite 3s;
+}
+
+/* BOTÃO LÍQUIDO */
+.liquid-button {
+    display: inline-block;
+    padding: 25px 60px;
+    background: linear-gradient(45deg, var(--gold), var(--gold-bright));
+    color: var(--primary-dark);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    border: none;
+    box-shadow: 0 20px 40px rgba(200, 168, 130, 0.3);
+}
+
+.liquid-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.6s ease;
+}
+
+.liquid-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 60px rgba(200, 168, 130, 0.4);
+}
+
+.liquid-button:hover::before {
+    left: 100%;
+}
+
+/* PREÇO MÁGICO */
+.magic-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 300;
+    text-align: center;
+    background: linear-gradient(45deg, var(--gold), var(--gold-bright), var(--gold));
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: priceGlow 4s ease-in-out infinite;
+    margin: 40px 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.magic-price::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, var(--gold-bright) 0%, transparent 70%);
+    opacity: 0;
+    filter: blur(20px);
+    transition: opacity 0.4s ease;
+}
+
+.magic-price:hover::before {
+    opacity: 0.3;
+}
+
+/* FAQ ACCORDION PREMIUM */
+.faq-item {
+    background: var(--glass);
+    backdrop-filter: blur(30px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    margin: 20px 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-question {
+    padding: 30px;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 1.1rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.faq-question::after {
+    content: '+';
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: var(--gold);
+    transition: transform 0.3s ease;
+}
+
+.faq-question.active::after {
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.faq-answer {
+    padding: 0 30px 30px 30px;
+    opacity: 0.8;
+    line-height: 1.7;
+    display: none;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 20px;
+    }
+    
+    .logo-text {
+        font-size: 4rem;
+    }
+    
+    .magnetic-title {
+        font-size: 2.5rem;
+    }
+    
+    .quote-text {
+        font-size: 1.8rem;
+    }
+    
+    .magic-price {
+        font-size: 3.5rem;
+    }
+    
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .floating-card {
+        padding: 40px 30px;
+    }
+}
+
+/* ANIMAÇÕES ÚNICAS */
+@keyframes liquidGold {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes hologramGrid {
+    0% { background-position: 0 0; }
+    100% { background-position: 30px 30px; }
+}
+
+@keyframes hologramScan {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+}
+
+@keyframes energyFlow {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+@keyframes cursorPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+@keyframes particleFloat {
+    0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+    25% { transform: translateY(-20px) translateX(10px); opacity: 0.8; }
+    50% { transform: translateY(-10px) translateX(-5px); opacity: 0.6; }
+    75% { transform: translateY(-30px) translateX(-10px); opacity: 0.4; }
+}
+
+@keyframes orbPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(200, 168, 130, 0.5); }
+    50% { transform: scale(1.2); box-shadow: 0 0 30px rgba(200, 168, 130, 0.8); }
+}
+
+@keyframes quoteScan {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes quoteFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes priceGlow {
+    0%, 100% { background-position: 0% 50%; filter: brightness(1); }
+    50% { background-position: 100% 50%; filter: brightness(1.2); }
+}
+
+/* HIDING SCROLLBAR BUT KEEPING FUNCTIONALITY */
+::-webkit-scrollbar {
+    display: none;
+}
+
+html {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
